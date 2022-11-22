@@ -2,11 +2,16 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int main() {
-  printf("PID: %d \n", (int)getpid());
-  printf("PPID: %d \n", (int)getppid());
-  printf("UID: %d \n", (int)getuid());
-  printf("GID: %d \n", (int)getgid());
+void print_process_info()
+{
+  printf("PID: %d\n", getpid());
+  printf("PPID: %d\n", getppid());
+  printf("UID: %d\n", getuid());
+  printf("GID: %d\n", getgid());
+}
 
+int main()
+{
+  print_process_info();
   return 0;
 }
