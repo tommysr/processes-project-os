@@ -55,6 +55,7 @@ int main()
 
       break;
     default:
+      sleep(1);
       break;
     }
   }
