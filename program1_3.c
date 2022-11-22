@@ -6,10 +6,10 @@
 
 void print_process_info()
 {
-  printf("PID: %d\n", (int)getpid());
-  printf("PPID: %d\n", (int)getppid());
-  printf("UID: %d\n", (int)getuid());
-  printf("GID: %d\n", (int)getgid());
+  printf("\nPID: %d\n", getpid());
+  printf("PPID: %d\n", getppid());
+  printf("UID: %d\n", getuid());
+  printf("GID: %d\n", getgid());
 }
 
 void wait_all()
@@ -35,7 +35,7 @@ int main()
   char pstree_cmd[20];
   int exec_status;
   sprintf(pstree_cmd, "pstree -p %d", getpid());
-  print_process_info();
+  // print_process_info();
 
   for (int i = 0; i < 3; i++)
   {
