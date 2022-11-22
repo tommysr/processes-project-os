@@ -5,14 +5,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void print_process_info()
-{
-  printf("PID: %d\n", (int)getpid());
-  printf("PPID: %d\n", (int)getppid());
-  printf("UID: %d\n", (int)getuid());
-  printf("GID: %d\n", (int)getgid());
-}
-
 // [20950] [22788] i=0 fork_id=22789  // MAIN
 // [22788] [22789] i=0 fork_id=0
 
@@ -44,15 +36,18 @@ void print_process_info()
 // OUT [1] [22793]
 // OUT [1] [22794]
 
+void print_process_info()
+{
+  printf("PID: %d\n", getpid());
+  printf("PPID: %d\n", getppid());
+  printf("UID: %d\n", getuid());
+  printf("GID: %d\n", getgid());
+}
+
 int main()
 {
   char pstree_cmd[20];
-  int parent_pid = getpid();
-  int status, ret;
-
-  sprintf(pstree_cmd, "pstree -p %d", parent_pid);
-  printf("Parent:\n");
-  print_process_info();
+  sprintf(pstree_cmd, "pstree -p %d", getpid());
 
   for (int i = 0; i < 3; i++)
   {
@@ -61,32 +56,14 @@ int main()
     case -1:
       perror("fork error, cannot create child process");
       exit(EXIT_FAILURE);
-      break;
     case 0:
       print_process_info();
-      exit(0); // TODO: what to do with exit 0;
       break;
     default:
-      break;
+      sleep(1);
     }
   }
-
   system(pstree_cmd);
-
-  while (1)
-  {
-    ret = wait(&status);
-
-    if (ret == -1)
-    {
-      perror("wait failed");
-      break;
-    }
-    else
-    {
-      printf("child proc PID: %d with status %d\n", ret, status);
-    }
-  }
 
   return 0;
 }
