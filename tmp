@@ -1,0 +1,15 @@
+//   int status, ret;
+// while (1)
+// {
+//   ret = wait(&status);
+
+//   if (ret == -1)
+//   {
+//     perror("wait failed");
+//     break;
+//   }
+//   else
+//   {
+//     printf("child proc PID: %d with status %d\n", ret, status);
+//   }
+// }

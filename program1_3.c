@@ -4,10 +4,17 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+void print_process_info()
+{
+  printf("PID: %d\n", (int)getpid());
+  printf("PPID: %d\n", (int)getppid());
+  printf("UID: %d\n", (int)getuid());
+  printf("GID: %d\n", (int)getgid());
+}
+
 void wait_all()
 {
-  int child_status;
-  int child_pid;
+  int child_status, child_pid;
 
   for (int i = 0; i < 3; i++)
   {
@@ -16,10 +23,10 @@ void wait_all()
     if (child_pid == -1)
     {
       perror("waiting for child process error");
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
-    printf("child process PID: %d returned with status code: %d\n", child_pid, child_status);
+    printf("child process PID: %d returned with status: %d\n", child_pid, child_status);
   }
 }
 
@@ -27,7 +34,8 @@ int main()
 {
   char pstree_cmd[20];
   int exec_status;
-  sprintf(pstree_cmd, "pstree -p %d", (int)getpid());
+  sprintf(pstree_cmd, "pstree -p %d", getpid());
+  print_process_info();
 
   for (int i = 0; i < 3; i++)
   {
@@ -35,16 +43,14 @@ int main()
     {
     case -1:
       perror("fork error, cannot create child process");
-      exit(1);
-      break;
+      exit(EXIT_FAILURE);
     case 0:
-      printf("\nfork no.%d", i);
       exec_status = execl("./p1", "p1", NULL);
 
       if (exec_status == -1)
       {
-        perror("execl invoke error");
-        exit(1);
+        perror("execl error, cannot execute");
+        exit(EXIT_FAILURE);
       }
 
       break;
@@ -55,5 +61,6 @@ int main()
 
   system(pstree_cmd);
   wait_all();
+
   return 0;
 }
