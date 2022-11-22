@@ -38,7 +38,7 @@
 
 void print_process_info()
 {
-  printf("PID: %d\n", getpid());
+  printf("\nPID: %d\n", getpid());
   printf("PPID: %d\n", getppid());
   printf("UID: %d\n", getuid());
   printf("GID: %d\n", getgid());
@@ -48,6 +48,7 @@ int main()
 {
   char pstree_cmd[20];
   sprintf(pstree_cmd, "pstree -p %d", getpid());
+  // print_process_info();
 
   for (int i = 0; i < 3; i++)
   {
@@ -60,7 +61,7 @@ int main()
       print_process_info();
       break;
     default:
-      sleep(1);
+      break;
     }
   }
   system(pstree_cmd);
