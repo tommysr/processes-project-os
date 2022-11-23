@@ -61,9 +61,12 @@ int main()
       print_process_info();
       break;
     default:
+      // sleep(1);
       break;
     }
   }
+
+  sleep(1);
   system(pstree_cmd);
 
   return 0;
